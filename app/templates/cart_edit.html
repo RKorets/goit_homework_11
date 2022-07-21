@@ -15,6 +15,11 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
+                                 {% if success%}
+        <p style="color:green">Successful!</p>
+      {% elif success == None %}
+        <p style="color:red">Profile with that name exists!</p>
+      {% endif %}
                 <form method="post" action="">
                 <div class="row mt-2">
                     {% for field in form %}

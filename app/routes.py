@@ -59,21 +59,34 @@ def form_create_user():
     return render_template('form.html', name=None)
 
 
-@app.route('/users/<int:user_id>/edit', methods=['GET', 'POST', 'DELETE'])
-def edit_user(user_id):
+@app.route('/users/<int:user_id>/<method>', methods=['GET', 'POST', 'DELETE'])
+def edit_user(user_id, method):
     user = User.query.filter(User.id == user_id).first_or_404()
-    print(user)
     success = False
-    if request.method == 'POST':
-        print(request.form)
-        form = UserForm(request.form, obj=user)
-        form.populate_obj(user)
+
+    if method == 'DELETE':
+        user = User.query.filter(User.id == user_id).first()
+        db.session.delete(user)
         db.session.commit()
-        success = True
-        return render_template('cart_edit.html', form=form, success=success)
+        return redirect('/show-users')
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        user_post = User.query.filter(User.username == username).first()
+        print(user_post)
+        if user == user_post or user_post is None:
+            form = UserForm(request.form, obj=user)
+            form.populate_obj(user)
+            db.session.commit()
+            success = True
+            return render_template('cart_edit.html', form=form, success=success)
+        elif user_post:
+            form = UserForm(obj=user)
+            return render_template('cart_edit.html', form=form, success=None)
     else:
         form = UserForm(obj=user)
         return render_template('cart_edit.html', form=form, success=success)
+
 
 
 @app.route('/show-users', methods=['GET'])

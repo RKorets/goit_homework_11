@@ -8,8 +8,8 @@ class User(db.Model):
     username = db.Column(db.String(50), index=True, unique=True)
     address = db.Column(db.String(150), nullable=True)
 
-    email = db.relationship('Email', back_populates='user')
-    phone = db.relationship('Phone', back_populates='user')
+    email = db.relationship('Email', back_populates='user', cascade="all, delete")
+    phone = db.relationship('Phone', back_populates='user', cascade="all, delete")
 
 
 class Email(db.Model):
@@ -18,11 +18,8 @@ class Email(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50), nullable=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user_contact.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user_contact.id', ondelete="CASCADE"), nullable=True)
     user = db.relationship('User', back_populates='email')
-
-    # def __repr__(self):
-    #     return f'{self.email}'
 
 
 class Phone(db.Model):
@@ -31,8 +28,5 @@ class Phone(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     phone = db.Column(db.String(50), nullable=True)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user_contact.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user_contact.id', ondelete="CASCADE"), nullable=True)
     user = db.relationship('User', back_populates='phone')
-
-    def __repr__(self):
-        return f'Test'

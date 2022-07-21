@@ -4,3 +4,4 @@ flask_migrate
 sqlalchemy
 Flask-WTF
 wtforms_sqlalchemy
+wtforms

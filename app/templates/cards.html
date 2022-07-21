@@ -20,7 +20,8 @@
                 <h4 class="mb-10">{{user.username}}</h4>
                 <span class="text-muted d-block mb-3">{{user.address}}</span>
 
-                <a href="{{ url_for('edit_user', user_id=user.id) }}"><button class="btn btn-primary btn-sm follow">Edit profile</button></a>
+                <a href="{{ url_for('edit_user', user_id=user.id, method='edit')}}"><button class="btn btn-primary btn-sm ">Edit profile</button></a>
+                <a href="{{ url_for('edit_user', user_id=user.id, method='DELETE') }}"><button style="background-color: red" class="btn btn-primary btn-sm " type="submit">Delete</button></a>
 
 
                 <div class="d-flex justify-content-between align-items-center mt-3 px-4">
